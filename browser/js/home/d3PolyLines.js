@@ -22,77 +22,11 @@ app.directive('d3PolyLines', ['d3', function(d3, SampleDataFactory) {
              // scope.$watch('data', function(newVals, oldVals) {
              //   return scope.render(newVals);
              // }, true);
-
-             // // define render function
-             // scope.render = function(data){
-             //   // remove all previous items before render
-             //   console.log('data in render', data[0].points);
-             //   svg.selectAll("*").remove();
-
-             //   // var x = d3.time.scale().range([0, "100%"]);
-             //   var y = d3.scale.linear().range([height, 0]);
-             //   var x = d3.scale.linear().range([0, "100%"]);
-
-
-             //   var xAxis = d3.svg.axis()
-             //     .scale(x)
-             //     .orient("bottom")
-             //     .ticks(d3.time.minutes, 1);
-
-             //   var yAxis = d3.svg.axis()
-             //     .scale(y)
-             //     .orient("left")
-
-             //   var info = [{x: 0, y:70 }, {x:1, y:76}];
-
-             //   // var data = svg.append("data")
-             //   //   .attr("class", "data-housing")
-             //   //   .call(yAxis);
-
-
-
-             //   var lineFunc = d3.svg.line()
-             //     .x(function(d) { return( (d.x) ); })
-             //     .y(function(d) { return( (d.y) ); })
-             //     .interpolate('linear');
-
-             //   var lineGraph = svg.append("path")
-             //   .attr('class', 'line')
-             //   .attr('d', lineFunc(info))
-             //   .attr('stroke', 'blue'); 
-             // };
-
-             // scope.render(scope.data);
-
-
-             svg.append('data');
-
-             // scope.data = [
-             //     {hour: 1,sales: 54},
-             //     {hour: 2,sales: 66},
-             //     {hour: 3,sales: 77},
-             //     {hour: 4,sales: 70},
-             //     {hour: 5,sales: 60},
-             //     {hour: 6,sales: 63},
-             //     {hour: 7,sales: 55},
-             //     {hour: 8,sales: 47},
-             //     {hour: 9,sales: 55},
-             //     {hour: 10,sales: 30},
-             //     {hour: 11,sales: 54},
-             //     {hour: 12,sales: 66},
-             //     {hour: 13,sales: 77},
-             //     {hour: 14,sales: 70},
-             //     {hour: 15,sales: 60},
-             //     {hour: 16,sales: 63},
-             //     {hour: 17,sales: 55},
-             //     {hour: 18,sales: 47},
-             //     {hour: 19,sales: 55},
-             //     {hour: 20,sales: 30},
-             //     {hour: 21,sales: 54},
-             //     {hour: 22,sales: 66},
-             //     {hour: 23,sales: 77},
-             //     {hour: 24,sales: 70},
-             // ];
+            
+            var nestedData = d3.nest()
+               .key(function(d){ return d.group })
+               .key(function(d){ return d.name })
+               .entries(scope.data)
 
              var padding = 20;
              var pathClass="path";
@@ -101,6 +35,8 @@ app.directive('d3PolyLines', ['d3', function(d3, SampleDataFactory) {
              // var d3 = $window.d3;
              var rawSvg = iElement.find("svg")[0];
              // var svg = d3.select(rawSvg);
+
+             var color = d3.scale.category20();
 
              function setAxes () {
                console.log("called setAxes");
@@ -148,7 +84,7 @@ app.directive('d3PolyLines', ['d3', function(d3, SampleDataFactory) {
                     svg.append("path")
                         .attr({
                             d: lineFun(scope.data),
-                            "stroke": "blue",
+                            "stroke": function(d) { return color(d.key); },
                             "stroke-width": 2,
                             "fill": "none",
                             "class": pathClass
