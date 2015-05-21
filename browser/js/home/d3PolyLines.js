@@ -22,15 +22,15 @@ app.directive('d3PolyLines', ['d3', function(d3) {
              //   return scope.render(newVals);
              // }, true);
             
-            // var nestedData = d3.nest()
-            //    .key(function(d){ return d.zone })
-            //    .entries(scope.data);
+            var nestedData = d3.nest()
+               .key(function(d){ return d.zone })
+               .key(function(d){ return d.time })
+               .entries(scope.data);
 
              var padding = 20;
              var pathClass="path";
              var xScale, yScale, xAxisGen, yAxisGen, lineFun;
 
-             // var d3 = $window.d3;
              var rawSvg = iElement.find("svg")[0];
              // var svg = d3.select(rawSvg);
 
@@ -39,38 +39,30 @@ app.directive('d3PolyLines', ['d3', function(d3) {
             function setAxes () {
                console.log("called setAxes");
                xScale = d3.scale.linear()
-                     .domain([scope.data[0].hour, scope.data[scope.data.length-1].hour])
+                     .domain([0, scope.data[scope.data.length-1].time])
                      .range([padding + 5, rawSvg.clientWidth - padding]);
                yScale = d3.scale.linear()
-                     .domain([0, d3.max(scope.data, function (d) {
-                       return d.sales;
-                     })])
+                     .domain([60, d3.max(scope.data, function (d) {
+                       return d.val;
+                     })+10 ])
                      .range([rawSvg.clientHeight - padding, 0]);
                xAxisGen = d3.svg.axis()
                      .scale(xScale)
                      .orient('bottom')
-                     .ticks(scope.data.length - 1);
+                     .ticks(9);
+                     //should make responsive in future
 
                yAxisGen = d3.svg.axis()
                      .scale(yScale)
                      .orient("left")
                      .ticks(5);
 
-               // lineFun = d3.svg.line()
-               //       .x(function (d) {
-               //         return xScale(d.time);
-               //       })
-               //       .y(function (d) {
-               //         return yScale(d.val);
-               //       })
-               //       .interpolate("basis");
-
                lineFun = d3.svg.line()
                      .x(function (d) {
-                       return xScale(d.hour);
+                       return xScale(d.time);
                      })
                      .y(function (d) {
-                       return yScale(d.sales);
+                       return yScale(d.val);
                      })
                      .interpolate("basis");
 
@@ -80,11 +72,11 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                   console.log('called drawLineChart');
                   setAxes();
 
-                  // zoneLine = svg.selectAll('.zone')
-                  // .data(nestedData)
-                  // .enter()
-                  // .append("g")
-                  // .attr("class", "zone-line")
+                  var zoneLine = svg.selectAll('.zone')
+                  .data(nestedData)
+                  .enter()
+                  .append("g")
+                  .attr("class", "zone-line")
 
                   svg.append("g")
                      .attr("class", "x axis")
@@ -96,14 +88,14 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .attr("transform", "translate(20,0)")
                      .call(yAxisGen);
 
-                  svg.append("path")
+                  zoneLine.append("path")
                      .attr({
                         d: lineFun(scope.data),
-                        "stroke": function(d) { return color(d.key); },
                         "stroke-width": 2,
                         "fill": "none",
                         "class": pathClass
-                     });
+                     })
+                     .style("stroke", function(d){ return color(d.key)});
              }
              drawLineChart();
       }}
