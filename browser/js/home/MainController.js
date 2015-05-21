@@ -32,5 +32,39 @@ app.controller("HomeCtrl", function($scope){
                  {hour: 22,sales: 66},
                  {hour: 23,sales: 77},
                  {hour: 24,sales: 70},
-             ];
+      ];
+
+    $scope.pointCloud= [
+	    { zone: "zone1", group: "Fan1", point: {time: 0, val: 72}},
+	    { zone: "zone1", group: "Fan1", point: {time: 1, val: 73}},
+	    { zone: "zone1", group: "Fan1", point: {time: 2, val: 74}},
+	    { zone: "zone1", group: "Fan1", point: {time: 3, val: 74}},
+	    { zone: "zone1", group: "Fan1", point: {time: 4, val: 74}},
+	    { zone: "zone1", group: "Fan1", point: {time: 5, val: 76}},
+	    { zone: "zone1", group: "Fan1", point: {time: 6, val: 76}},
+	    { zone: "zone1", group: "Fan1", point: {time: 7, val: 76}},
+	    { zone: "zone1", group: "Fan1", point: {time: 8, val: 76}},
+	    { zone: "zone1", group: "Fan1", point: {time: 9, val: 76}},
+	    { zone: "zone2", group: "Fan1", point: {time: 0, val: 76}},
+	    { zone: "zone2", group: "Fan1", point: {time: 1, val: 76}},
+	    { zone: "zone2", group: "Fan1", point: {time: 2, val: 78}},
+	    { zone: "zone2", group: "Fan1", point: {time: 3, val: 78}},
+	    { zone: "zone2", group: "Fan1", point: {time: 4, val: 78}},
+	    { zone: "zone2", group: "Fan1", point: {time: 5, val: 79}},
+	    { zone: "zone2", group: "Fan1", point: {time: 6, val: 79}},
+	    { zone: "zone2", group: "Fan1", point: {time: 7, val: 79}},
+	    { zone: "zone2", group: "Fan1", point: {time: 8, val: 77}},
+	    { zone: "zone2", group: "Fan1", point: {time: 9, val: 77}},
+	    { zone: "zone3", group: "Fan2", point: {time: 0, val: 77}},
+	    { zone: "zone3", group: "Fan2", point: {time: 1, val: 77}},
+	    { zone: "zone3", group: "Fan2", point: {time: 2, val: 76}},
+	    { zone: "zone3", group: "Fan2", point: {time: 3, val: 76}},
+	    { zone: "zone3", group: "Fan2", point: {time: 4, val: 75}},
+	    { zone: "zone3", group: "Fan2", point: {time: 5, val: 73}},
+	    { zone: "zone3", group: "Fan2", point: {time: 6, val: 73}},
+	    { zone: "zone3", group: "Fan2", point: {time: 7, val: 72}},
+	    { zone: "zone3", group: "Fan2", point: {time: 8, val: 72}},
+	    { zone: "zone3", group: "Fan2", point: {time: 9, val: 72}}
+	];
+
 })
