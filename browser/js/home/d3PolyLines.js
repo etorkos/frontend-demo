@@ -1,7 +1,7 @@
 'use strict';
 
-    app.directive('d3PolyLines', ['d3', function(d3, SampleDataFactory) {
-      return {
+app.directive('d3PolyLines', ['d3', function(d3, SampleDataFactory) {
+   return {
         restrict: 'EA',
         scope: {
           data: "=",
@@ -10,87 +10,150 @@
         },
         link: function(scope, iElement, iAttrs) {
 
-          console.log("sampleData: ", SampleDataFactory);
-          var svg = d3.select(iElement[0])
-              .append("svg")
-              .attr("width", "100%")
-              .attr("height", 400)
-              .style('background-color', 'gray');
+             console.log("sampleData: ", SampleDataFactory);
+             var height = 500
+             var svg = d3.select(iElement[0])
+                 .append("svg")
+                 .attr("width", "100%")
+                 .attr("height", height)
+                 .style('background-color', 'white') ;
 
-          
-          // // on window resize, re-render d3 canvas
-          // window.onresize = function() {
-          //   return scope.$apply();
-          // };
-          // scope.$watch(function(){
-          //     return angular.element(window)[0].innerWidth;
-          //   }, function(){
-          //     return scope.render(scope.data);
-          //   }
-          // );
+             // watch for data changes and re-render
+             // scope.$watch('data', function(newVals, oldVals) {
+             //   return scope.render(newVals);
+             // }, true);
 
-          // watch for data changes and re-render
-          scope.$watch('data', function(newVals, oldVals) {
-            return scope.render(newVals);
-          }, true);
+             // // define render function
+             // scope.render = function(data){
+             //   // remove all previous items before render
+             //   console.log('data in render', data[0].points);
+             //   svg.selectAll("*").remove();
 
-          // define render function
-          scope.render = function(data){
-            // remove all previous items before render
-            console.log('data in render', data[0].points);
-            svg.selectAll("*").remove();
+             //   // var x = d3.time.scale().range([0, "100%"]);
+             //   var y = d3.scale.linear().range([height, 0]);
+             //   var x = d3.scale.linear().range([0, "100%"]);
 
-            // // setup variables
-            // var width, height, max;
-            // width = d3.select(iElement[0])[0][0].offsetWidth - 20;
-            //   // 20 is for margins and can be changed
-            // height = scope.data.length * 35;
-            //   // 35 = 30(bar height) + 5(margin between bars)
-            // max = 98;
-            //   // this can also be found dynamically when the data is not static
-            //   // max = Math.max.apply(Math, _.map(data, ((val)-> val.count)))
 
-            // // set the height based on the calculations above
+             //   var xAxis = d3.svg.axis()
+             //     .scale(x)
+             //     .orient("bottom")
+             //     .ticks(d3.time.minutes, 1);
 
-            //create the rectangles for the bar chart
-            // svg.selectAll("rect")
-            //   .data(data)
-            //   .enter()
-            //     .append("rect")
-            //     .on("click", function(d, i){return scope.onClick({item: d});})
-            //     .attr("height", 30) // height of each bar
-            //     .attr("width", 0) // initial width of 0 for transition
-            //     .attr("x", 10) // half of the 20 side margin specified above
-            //     .attr("y", function(d, i){
-            //       return i * 35;
-            //     }) // height + margin between bars
-            //     .transition()
-            //       .duration(1000) // time of duration
-            //       .attr("width", function(d){
-            //         return d.score/(max/width);
-            //       }); // width based on scale
+             //   var yAxis = d3.svg.axis()
+             //     .scale(y)
+             //     .orient("left")
 
-            // svg.selectAll("text")
-            //   .data(data)
-            //   .enter()
-            //     .append("text")
-            //     .attr("fill", "#fff")
-            //     .attr("y", function(d, i){return i * 35 + 22;})
-            //     .attr("x", 15)
-            //     .text(function(d){return d[scope.label];});
-            var info = [{x: 0, y:1 }, {x:1, y:6}];
+             //   var info = [{x: 0, y:70 }, {x:1, y:76}];
 
-            var lineFunc = d3.svg.line()
-              .x(function(d) { return( (d.x) ); })
-              .y(function(d) { return( (d.y) ); })
-              .interpolate('linear');
+             //   // var data = svg.append("data")
+             //   //   .attr("class", "data-housing")
+             //   //   .call(yAxis);
 
-            var lineGraph = svg.append("path")
-            .attr('class', 'line')
-            .attr('d', lineFunc(info))
-            .attr('stroke', 'blue'); 
-          };
-          scope.render(scope.data);
-        }
-      };
-    }]);
+
+
+             //   var lineFunc = d3.svg.line()
+             //     .x(function(d) { return( (d.x) ); })
+             //     .y(function(d) { return( (d.y) ); })
+             //     .interpolate('linear');
+
+             //   var lineGraph = svg.append("path")
+             //   .attr('class', 'line')
+             //   .attr('d', lineFunc(info))
+             //   .attr('stroke', 'blue'); 
+             // };
+
+             // scope.render(scope.data);
+
+
+             svg.append('data');
+
+             // scope.data = [
+             //     {hour: 1,sales: 54},
+             //     {hour: 2,sales: 66},
+             //     {hour: 3,sales: 77},
+             //     {hour: 4,sales: 70},
+             //     {hour: 5,sales: 60},
+             //     {hour: 6,sales: 63},
+             //     {hour: 7,sales: 55},
+             //     {hour: 8,sales: 47},
+             //     {hour: 9,sales: 55},
+             //     {hour: 10,sales: 30},
+             //     {hour: 11,sales: 54},
+             //     {hour: 12,sales: 66},
+             //     {hour: 13,sales: 77},
+             //     {hour: 14,sales: 70},
+             //     {hour: 15,sales: 60},
+             //     {hour: 16,sales: 63},
+             //     {hour: 17,sales: 55},
+             //     {hour: 18,sales: 47},
+             //     {hour: 19,sales: 55},
+             //     {hour: 20,sales: 30},
+             //     {hour: 21,sales: 54},
+             //     {hour: 22,sales: 66},
+             //     {hour: 23,sales: 77},
+             //     {hour: 24,sales: 70},
+             // ];
+
+             var padding = 20;
+             var pathClass="path";
+             var xScale, yScale, xAxisGen, yAxisGen, lineFun;
+
+             // var d3 = $window.d3;
+             var rawSvg = iElement.find("svg")[0];
+             // var svg = d3.select(rawSvg);
+
+             function setAxes () {
+               console.log("called setAxes");
+               xScale = d3.scale.linear()
+                     .domain([scope.data[0].hour, scope.data[scope.data.length-1].hour])
+                     .range([padding + 5, rawSvg.clientWidth - padding]);
+               yScale = d3.scale.linear()
+                     .domain([0, d3.max(scope.data, function (d) {
+                       return d.sales;
+                     })])
+                     .range([rawSvg.clientHeight - padding, 0]);
+               xAxisGen = d3.svg.axis()
+                     .scale(xScale)
+                     .orient('bottom')
+                     .ticks(scope.data.length - 1);
+
+               yAxisGen = d3.svg.axis()
+                     .scale(yScale)
+                     .orient("left")
+                     .ticks(5);
+
+               lineFun = d3.svg.line()
+                     .x(function (d) {
+                       return xScale(d.hour);
+                     })
+                     .y(function (d) {
+                       return yScale(d.sales);
+                     })
+                     .interpolate("basis");
+             }
+
+             function drawLineChart() {
+               console.log('called drawLineChart');
+              setAxes();
+              svg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0,180)")
+                        .call(xAxisGen);
+
+                    svg.append("g")
+                        .attr("class", "y axis")
+                        .attr("transform", "translate(20,0)")
+                        .call(yAxisGen);
+
+                    svg.append("path")
+                        .attr({
+                            d: lineFun(scope.data),
+                            "stroke": "blue",
+                            "stroke-width": 2,
+                            "fill": "none",
+                            "class": pathClass
+                        });
+             }
+             drawLineChart();
+      }}
+}]);
