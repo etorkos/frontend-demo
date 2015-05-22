@@ -24,7 +24,6 @@ app.directive('d3PolyLines', ['d3', function(d3) {
             
             var nestedData = d3.nest()
                .key(function(d){ return d.zone })
-               .key(function(d){ return d.time })
                .entries(scope.data);
 
              var padding = 20;
@@ -70,6 +69,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
 
              function drawLineChart() {
                   console.log('called drawLineChart');
+                  console.log(nestedData);
                   setAxes();
 
                   var zoneLine = svg.selectAll('.zone')
@@ -89,7 +89,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .call(yAxisGen);
 
                   zoneLine.append("path")
-                    .attr("d", function(d){ return lineFun(scope.data) })
+                    .attr("d", function(d){ return lineFun(d.values) })
                      .attr({
                         "stroke-width": 2,
                         "fill": "none",
