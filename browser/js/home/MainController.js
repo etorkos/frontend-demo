@@ -31,7 +31,21 @@ app.controller("HomeCtrl", function($scope){
 	    { zone: "zone3", group: "Fan2", time: 6, val: 73},
 	    { zone: "zone3", group: "Fan2", time: 7, val: 72},
 	    { zone: "zone3", group: "Fan2", time: 8, val: 72},
-	    { zone: "zone3", group: "Fan2", time: 9, val: 72}
+	    { zone: "zone3", group: "Fan2", time: 9, val: 72},
+	    { zone: "zone4", group: "Fan2", time: 0, val: 70},
+	    { zone: "zone4", group: "Fan2", time: 1, val: 70},
+	    { zone: "zone4", group: "Fan2", time: 2, val: 70},
+	    { zone: "zone4", group: "Fan2", time: 3, val: 72},
+	    { zone: "zone4", group: "Fan2", time: 4, val: 73},
+	    { zone: "zone4", group: "Fan2", time: 5, val: 74},
+	    { zone: "zone4", group: "Fan2", time: 6, val: 75},
+	    { zone: "zone4", group: "Fan2", time: 7, val: 75},
+	    { zone: "zone4", group: "Fan2", time: 8, val: 75},
+	    { zone: "zone4", group: "Fan2", time: 9, val: 75},
+	    { zone: "zone1", group: "Fan1", time: 10, val: 74},
+	    { zone: "zone2", group: "Fan1", time: 10, val: 76},
+	    { zone: "zone3", group: "Fan2", time: 10, val: 70},
+	    { zone: "zone4", group: "Fan2", time: 10, val: 75}
 	];
 
 })
