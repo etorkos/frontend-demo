@@ -24,9 +24,9 @@ app.directive('d3PolyLines', ['d3', function(d3) {
             
             var nestedData = d3.nest()
                .key(function(d){ return d.zone })
-               .key(function(d){ return d.time })
                .entries(scope.data);
 
+               console.log('nestedData', nestedData);
              var padding = 20;
              var pathClass="path";
              var xScale, yScale, xAxisGen, yAxisGen, lineFun;
@@ -64,7 +64,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .y(function (d) {
                        return yScale(d.val);
                      })
-                     .interpolate("basis");
+                     .interpolate("linear");
 
             }
 
@@ -77,6 +77,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                   .enter()
                   .append("g")
                   .attr("class", "zone-line")
+                  .attr("id", function(d) { return d.key } );
 
                   svg.append("g")
                      .attr("class", "x axis")
@@ -89,8 +90,8 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .call(yAxisGen);
 
                   zoneLine.append("path")
+                     .attr( "d", function(d){ lineFun(d.values) })
                      .attr({
-                        d: lineFun(scope.data),
                         "stroke-width": 2,
                         "fill": "none",
                         "class": pathClass
