@@ -89,8 +89,8 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .call(yAxisGen);
 
                   zoneLine.append("path")
+                    .attr("d", function(d){ return lineFun(scope.data) })
                      .attr({
-                        d: lineFun(scope.data),
                         "stroke-width": 2,
                         "fill": "none",
                         "class": pathClass
