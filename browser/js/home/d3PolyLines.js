@@ -10,11 +10,13 @@ app.directive('d3PolyLines', ['d3', function(d3) {
         },
         link: function(scope, iElement, iAttrs) {
 
-             var height = 500
+             var margin = {top: 30, right: 30, bottom: 30, left: 60};
+             var height = 500 - margin.top - margin.bottom;
+             var width = 700 - margin.left - margin.right;
              var svg = d3.select(iElement[0])
                  .append("svg")
                  .attr("width", "100%")
-                 .attr("height", height)
+                 .attr("height", height+margin.top + margin.bottom)
                  .style('background-color', 'white') ;
 
              // watch for data changes and re-render
@@ -25,6 +27,8 @@ app.directive('d3PolyLines', ['d3', function(d3) {
             var nestedData = d3.nest()
                .key(function(d){ return d.zone })
                .entries(scope.data);
+
+             
 
              var padding = 20;
              var pathClass="path";
@@ -38,23 +42,24 @@ app.directive('d3PolyLines', ['d3', function(d3) {
             function setAxes () {
                console.log("called setAxes");
                xScale = d3.scale.linear()
-                     .domain([0, scope.data[scope.data.length-1].time])
-                     .range([padding + 5, rawSvg.clientWidth - padding]);
+                     .domain([0, scope.data[scope.data.length-1].time + 2])
+                     .range([0, width]);
                yScale = d3.scale.linear()
                      .domain([60, d3.max(scope.data, function (d) {
-                       return d.val;
-                     })+10 ])
-                     .range([rawSvg.clientHeight - padding, 0]);
+                       return Math.floor(d.val+10);
+                     })])
+                     .range([height, 0]);
+
                xAxisGen = d3.svg.axis()
                      .scale(xScale)
                      .orient('bottom')
-                     .ticks(9);
+                     .ticks(scope.data[scope.data.length-1].time);
                      //should make responsive in future
 
                yAxisGen = d3.svg.axis()
                      .scale(yScale)
                      .orient("left")
-                     .ticks(5);
+                     .ticks(6);
 
                lineFun = d3.svg.line()
                      .x(function (d) {
@@ -80,12 +85,12 @@ app.directive('d3PolyLines', ['d3', function(d3) {
 
                   svg.append("g")
                      .attr("class", "x axis")
-                     .attr("transform", "translate(0,180)")
+                     .attr("transform", "translate("+margin.left+","+height+")")
                      .call(xAxisGen);
 
                   svg.append("g")
                      .attr("class", "y axis")
-                     .attr("transform", "translate(20,0)")
+                     .attr("transform", "translate("+margin.left+",0)")
                      .call(yAxisGen);
 
                   zoneLine.append("path")
@@ -95,7 +100,8 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                         "fill": "none",
                         "class": pathClass
                      })
-                     .style("stroke", function(d){ return color(d.key)});
+                     .style("stroke", function(d){ return color(d.key)})
+                     .attr("transform", "translate("+margin.left+",0)");
              }
              drawLineChart();
       }}
