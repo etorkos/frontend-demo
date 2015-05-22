@@ -53,7 +53,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                xAxisGen = d3.svg.axis()
                      .scale(xScale)
                      .orient('bottom')
-                     .ticks(scope.data[scope.data.length-1].time);
+                     .ticks(12);
                      //should make responsive in future
 
                yAxisGen = d3.svg.axis()
@@ -98,28 +98,41 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .attr({
                         "stroke-width": 2,
                         "fill": "none",
-                        "class": pathClass
+                        "class": pathClass,
                      })
                      .style("stroke", function(d){ return color(d.key)})
                      .attr("transform", "translate("+margin.left+",0)");
 
                      zoneLine.selectAll("circle")
                        .data(function(d) {
-                            console.log(d);
                             return(d.values);
                         })
                         .enter().append("circle")
                         .attr("cx", function(d){ return xScale( d.time ); })
                         .attr("cy", function(d){ return yScale( d.val ); })
                         .attr("stroke-width", 4.8)
-                        .attr("stroke-opacity", 0.0001)
-                        .attr("fill-opacity", 1)
-                        .attr("r", 1.5)
+                        .attr("stroke-opacity", 1)
+                        .attr("fill-opacity", 0)
+                        .attr("r", 3)
                         .attr("transform", "translate("+margin.left+",0)")
-                        .on("mouseover", function(d, i) { console.log("value: "+ d.val+" "+d.time); })
+                        .on("mouseover", function(d, i) { console.log("value: "+ d.val+" Time stamp: "+d.time); })
                         .on('click', function(d,i){
-                          alert("node clicked. Hiding all non-grouped fans");
+                          console.log("node clicked. Hiding all non-grouped fans");
+                          hideOtherFans(zoneLine, d.group)
                         });
+             }
+
+             function hideOtherFans ( lines, myGroup){
+              console.log(myGroup);
+              lines.selectAll('path')
+                .data(function(d) {
+                  console.log(d);
+                  return(d.values);
+                })
+                .attr('opacity', function(d){
+                  var op = myGroup !== d.group ? 0.2 : 1;
+                  return op;
+                });
              }
              drawLineChart();
       }}
