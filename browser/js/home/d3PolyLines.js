@@ -68,7 +68,7 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      .y(function (d) {
                        return yScale(d.val);
                      })
-                     .interpolate("basis");
+                     .interpolate("linear");
 
             }
 
@@ -102,6 +102,24 @@ app.directive('d3PolyLines', ['d3', function(d3) {
                      })
                      .style("stroke", function(d){ return color(d.key)})
                      .attr("transform", "translate("+margin.left+",0)");
+
+                     zoneLine.selectAll("circle")
+                       .data(function(d) {
+                            console.log(d);
+                            return(d.values);
+                        })
+                        .enter().append("circle")
+                        .attr("cx", function(d){ return xScale( d.time ); })
+                        .attr("cy", function(d){ return yScale( d.val ); })
+                        .attr("stroke-width", 4.8)
+                        .attr("stroke-opacity", 0.0001)
+                        .attr("fill-opacity", 1)
+                        .attr("r", 1.5)
+                        .attr("transform", "translate("+margin.left+",0)")
+                        .on("mouseover", function(d, i) { console.log("value: "+ d.val+" "+d.time); })
+                        .on('click', function(d,i){
+                          alert("node clicked. Hiding all non-grouped fans");
+                        });
              }
              drawLineChart();
       }}
